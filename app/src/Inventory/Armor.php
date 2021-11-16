@@ -2,7 +2,7 @@
 
 namespace Tournament\Inventory;
 
-class Armor
+class Armor implements Inventory
 {
     private string $armorType;
 

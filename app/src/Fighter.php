@@ -4,6 +4,7 @@ namespace Tournament;
 use Tournament\Inventory\Armor;
 use Tournament\Inventory\Buckler;
 use Tournament\Inventory\Weapon;
+use Tournament\Inventory\Inventory;
 
 abstract class Fighter
 {
@@ -42,7 +43,30 @@ abstract class Fighter
     }
 
     // engage
-    // equip
+    public function engage(Fighter $fighter): void
+    {
+        $attacker = $fighter;
+        $defender = $this;
+
+        while (true)
+        {
+            if ($fighter->hitPoints() <= 0 || $this->hitPoints() <= 0) break;
+
+            $attacker = $attacker === $fighter ? $this : $fighter;
+            $defender = $defender === $this ? $fighter : $this;
+
+            $attacker->madeBlow();
+            $attacker->blow($defender);
+        }
+    }
+
+
+    public function equip(Inventory $item): void
+    {
+        if ($item instanceof Weapon) $this->weapon = $item;
+        if ($item instanceof Buckler) $this->buckler = $item;
+        if ($item instanceof Armor) $this->armor = $item;
+    }
 
     public function getSpeciality(): ?string
     {
@@ -54,7 +78,7 @@ abstract class Fighter
         return $this->totalHP;
     }
 
-    public function getCurrentHP(): int
+    public function hitPoints(): int
     {
         if ($this->currentHP < 0) $this->currentHP = 0;
         return $this->currentHP;
@@ -63,5 +87,25 @@ abstract class Fighter
     public function getWeapon(): Weapon
     {
         return $this->weapon;
+    }
+
+    public function blow(Fighter $fighter): void
+    {
+        $fighter->receivedBlow($this->weapon->getWeaponDmg());
+    }
+
+    public function receivedBlow(int $dmg): void
+    {
+        if (!is_null($this->armor))
+        {
+            $this->currentHP -= $dmg - self::REDUCE_ALL_RECEIVED_DMG;
+        } else {
+            $this->currentHP -= $dmg;
+        }
+    }
+
+    public function madeBlow(): void
+    {
+        $this->blows++;
     }
 }
