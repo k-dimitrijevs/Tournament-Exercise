@@ -2,7 +2,7 @@
 
 namespace Tournament\Inventory;
 
-class Armor implements Inventory
+class Armor
 {
     private int $reduceReceivedDmg;
     private int $reduceOutgoingDmg;

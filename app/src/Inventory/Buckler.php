@@ -2,7 +2,7 @@
 
 namespace Tournament\Inventory;
 
-class Buckler implements Inventory
+class Buckler
 {
     private int $blocks;
 

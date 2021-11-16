@@ -2,7 +2,7 @@
 
 namespace Tournament\Inventory;
 
-class Axe implements Weapon, Inventory
+class Axe implements Weapon
 {
     private string $weaponType;
     private int $weaponDmg;

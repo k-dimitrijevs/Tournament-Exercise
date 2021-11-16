@@ -2,7 +2,7 @@
 
 namespace Tournament\Inventory;
 
-class Sword implements Weapon, Inventory
+class Sword implements Weapon
 {
     private string $weaponType;
     private int $weaponDmg;

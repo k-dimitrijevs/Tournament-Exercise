@@ -2,7 +2,6 @@
 namespace Tournament;
 
 use Tournament\Inventory\Sword;
-use Tournament\Inventory\Weapon;
 
 class Highlander extends Fighter
 {
@@ -12,10 +11,5 @@ class Highlander extends Fighter
         $this->totalHP = 150;
         $this->currentHP = $this->totalHP;
         $this->weapon = new Sword("Great Sword", 12);
-    }
-
-    public function getFighterWeapon(): Weapon
-    {
-        return $this->weapon;
     }
 }
