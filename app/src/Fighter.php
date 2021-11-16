@@ -5,7 +5,6 @@ use Tournament\Inventory\Armor;
 use Tournament\Inventory\Axe;
 use Tournament\Inventory\Buckler;
 use Tournament\Inventory\Weapon;
-use Tournament\Inventory\Inventory;
 
 abstract class Fighter
 {
@@ -74,13 +73,13 @@ abstract class Fighter
         switch ($item)
         {
             case "buckler":
-                $this->buckler = new Buckler("buckler", 3);
+                $this->buckler = new Buckler($item, 3);
                 break;
             case "armor":
-                $this->armor = new Armor("armor");
+                $this->armor = new Armor($item);
                 break;
             case "axe":
-                $this->weapon = new Axe("1 hand axe", 6);
+                $this->weapon = new Axe($item, 6);
                 break;
             // Can add more cases e.g. case "sword" -> creates new Sword etc.
         }
