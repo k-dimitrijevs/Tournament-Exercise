@@ -4,18 +4,11 @@ namespace Tournament\Inventory;
 
 class Buckler implements Inventory
 {
-    private string $armorType;
     private int $blocks;
 
-    public function __construct(string $armorType, int $blocks)
+    public function __construct()
     {
-        $this->armorType = $armorType;
-        $this->blocks = $blocks;
-    }
-
-    public function getArmorType(): string
-    {
-        return $this->armorType;
+        $this->blocks = 3;
     }
 
     public function getBlocks(): int

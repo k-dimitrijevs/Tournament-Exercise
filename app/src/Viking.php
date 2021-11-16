@@ -11,7 +11,7 @@ class Viking extends Fighter
         parent::__construct($speciality);
         $this->totalHP = 120;
         $this->currentHP = $this->totalHP;
-        $this->weapon = new Axe("1 hand axe", 6);
+        $this->weapon = new Axe("1 hand axe",6);
     }
 
     public function getVikingWeapon(): Weapon

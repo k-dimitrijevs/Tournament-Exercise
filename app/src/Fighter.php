@@ -18,10 +18,6 @@ abstract class Fighter
 
     private int $blows = 0;
 
-    /** an armor : reduce all received damages by 3 & reduce delivered damages by one **/
-    const REDUCE_ALL_RECEIVED_DMG = 3;
-    const REDUCE_DELIVERED_DMG = 1;
-
     /**
      *  a vicious Swordsman is a Swordsman that put poison on his weapon.
      * poison add 20 damages on two first blows
@@ -33,7 +29,7 @@ abstract class Fighter
      * a veteran Highlander goes Berserk once his hit points are under 30% of his initial total
      * once Berserk, he doubles his damages
      */
-    const VETERAN_HIGHLANDER_ACTIVATES_BERSERK = 0.3; // totalHP * 0.3
+    const VETERAN_HIGHLANDER_ACTIVATES_BERSERK = 0.3;
     const VETERAN_HIGHLANDER_BERSERK_MULTIPLIER = 2;
 
 
@@ -42,7 +38,6 @@ abstract class Fighter
         $this->speciality = $speciality;
     }
 
-    // engage
     public function engage(Fighter $fighter)
     {
         $attacker = $fighter;
@@ -50,6 +45,7 @@ abstract class Fighter
 
         while (true)
         {
+            // Putting hit point checking in while statement breaks tests. (Forever loading)
             if ($fighter->hitPoints() <= 0 || $this->hitPoints() <= 0) break;
 
             $attacker = $attacker === $fighter ? $this : $fighter;
@@ -62,8 +58,18 @@ abstract class Fighter
                 $defender->buckler->getBlocks() > 0)
             {
                 if ($attacker->weapon instanceof Axe) $defender->buckler->blocked();
-            } else {
-                $attacker->blow($defender);
+            } else
+            {
+                if ($attacker->weapon->weaponType() === "Great Sword")
+                {
+                    if ($attacker->getBlows() % 3 !== 0)
+                    {
+                        $attacker->blow($defender);
+                    }
+                } else
+                {
+                    $attacker->blow($defender);
+                }
             }
         }
     }
@@ -72,28 +78,18 @@ abstract class Fighter
     {
         switch ($item)
         {
+            // Can add more cases e.g. case "sword" -> creates new Sword etc.
             case "buckler":
-                $this->buckler = new Buckler($item, 3);
+                $this->buckler = new Buckler();
                 break;
             case "armor":
-                $this->armor = new Armor($item);
+                $this->armor = new Armor();
                 break;
             case "axe":
-                $this->weapon = new Axe($item, 6);
+                $this->weapon = new Axe("1 hand axe", 6);
                 break;
-            // Can add more cases e.g. case "sword" -> creates new Sword etc.
         }
         return $this;
-    }
-
-    public function getSpeciality(): ?string
-    {
-        return $this->speciality;
-    }
-
-    public function getTotalHP(): int
-    {
-        return $this->totalHP;
     }
 
     public function hitPoints(): int
@@ -102,22 +98,36 @@ abstract class Fighter
         return $this->currentHP;
     }
 
-    public function getWeapon(): Weapon
-    {
-        return $this->weapon;
-    }
-
     public function blow(Fighter $fighter): void
     {
-        $fighter->receivedBlow($this->weapon->weaponDmg());
+        if ($this->speciality === "Vicious" && $this->getBlows() <= self::VICIOUS_SWORDSMAN_POISON_BLOW_COUNT)
+        {
+            $fighter->receiveBlow($this->weapon->weaponDmg() + self::VICIOUS_SWORDSMAN_POISON_DMG);
+            return;
+        }
+
+        if ($this->speciality === "Veteran" && $this->hitPoints() <= $this->totalHP * self::VETERAN_HIGHLANDER_ACTIVATES_BERSERK)
+        {
+            $fighter->receiveBlow($this->weapon->weaponDmg() * self::VETERAN_HIGHLANDER_BERSERK_MULTIPLIER);
+            return;
+        }
+
+        if (!is_null($this->armor))
+        {
+            $fighter->receiveBlow($this->weapon->weaponDmg() - $this->armor->getReducedOutgoingDmg());
+            return;
+        }
+
+        $fighter->receiveBlow($this->weapon->weaponDmg());
     }
 
-    public function receivedBlow(int $dmg): void
+    public function receiveBlow(int $dmg): void
     {
         if (!is_null($this->armor))
         {
-            $this->currentHP -= $dmg - self::REDUCE_ALL_RECEIVED_DMG;
-        } else {
+            $this->currentHP -= $dmg - $this->armor->getReducedReceivedDmg();
+        } else
+        {
             $this->currentHP -= $dmg;
         }
     }

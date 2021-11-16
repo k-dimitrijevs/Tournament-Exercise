@@ -4,6 +4,6 @@ namespace Tournament\Inventory;
 
 interface Weapon
 {
-    public function weaponType(): string;
     public function weaponDmg(): int;
+    public function weaponType(): string;
 }

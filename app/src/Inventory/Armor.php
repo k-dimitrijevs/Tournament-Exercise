@@ -4,15 +4,22 @@ namespace Tournament\Inventory;
 
 class Armor implements Inventory
 {
-    private string $armorType;
+    private int $reduceReceivedDmg;
+    private int $reduceOutgoingDmg;
 
-    public function __construct(string $armorType)
+    public function __construct()
     {
-        $this->armorType = $armorType;
+        $this->reduceReceivedDmg = 3;
+        $this->reduceOutgoingDmg = 1;
     }
 
-    public function getArmorType(): string
+    public function getReducedReceivedDmg(): int
     {
-        return $this->armorType;
+        return $this->reduceReceivedDmg;
+    }
+
+    public function getReducedOutgoingDmg(): int
+    {
+        return $this->reduceOutgoingDmg;
     }
 }

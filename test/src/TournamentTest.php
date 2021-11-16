@@ -43,7 +43,7 @@ class TournamentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * an Highlander as 150 hit points and fight with a Great Sword
+     * a Highlander as 150 hit points and fight with a Great Sword
      * a Great Sword is a two handed sword deliver 12 damages, but can attack only 2 every 3)(attack ; attack ; no attack)
      * an armor : reduce all received damages by 3 & reduce delivered damages by one
      */

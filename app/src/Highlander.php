@@ -14,7 +14,7 @@ class Highlander extends Fighter
         $this->weapon = new Sword("Great Sword", 12);
     }
 
-    public function getHighlanderWeapon(): Weapon
+    public function getFighterWeapon(): Weapon
     {
         return $this->weapon;
     }
