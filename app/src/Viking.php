@@ -1,7 +1,7 @@
 <?php
 namespace Tournament;
 
-use Tournament\Inventory\Weapon;
+use Tournament\Inventory\Axe;
 
 class Viking extends Fighter
 {
@@ -10,6 +10,6 @@ class Viking extends Fighter
         parent::__construct($speciality);
         $this->totalHP = 120;
         $this->currentHP = $this->totalHP;
-        $this->weapon = new Weapon("1 hand axe", 6);
+        $this->weapon = new Axe("1 hand axe", 6);
     }
 }

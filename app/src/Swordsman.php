@@ -2,7 +2,7 @@
 
 namespace Tournament;
 
-use Tournament\Inventory\Weapon;
+use Tournament\Inventory\Sword;
 
 class Swordsman extends Fighter
 {
@@ -11,6 +11,6 @@ class Swordsman extends Fighter
         parent::__construct($speciality);
         $this->totalHP = 100;
         $this->currentHP = $this->totalHP;
-        $this->weapon = new Weapon("1 hand sword", 5);
+        $this->weapon = new Sword("1 hand sword", 5);
     }
 }

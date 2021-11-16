@@ -56,7 +56,10 @@ abstract class Fighter
             $defender = $defender === $this ? $fighter : $this;
 
             $attacker->madeBlow();
+
             $attacker->blow($defender);
+
+
         }
     }
 
@@ -91,7 +94,7 @@ abstract class Fighter
 
     public function blow(Fighter $fighter): void
     {
-        $fighter->receivedBlow($this->weapon->getWeaponDmg());
+        $fighter->receivedBlow($this->weapon->weaponDmg());
     }
 
     public function receivedBlow(int $dmg): void
