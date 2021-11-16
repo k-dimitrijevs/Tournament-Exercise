@@ -10,7 +10,7 @@ class Buckler implements Inventory
     public function __construct(string $armorType, int $blocks)
     {
         $this->armorType = $armorType;
-        $this->blocks - $blocks;
+        $this->blocks = $blocks;
     }
 
     public function getArmorType(): string

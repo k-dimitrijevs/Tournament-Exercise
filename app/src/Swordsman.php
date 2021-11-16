@@ -3,6 +3,7 @@
 namespace Tournament;
 
 use Tournament\Inventory\Sword;
+use Tournament\Inventory\Weapon;
 
 class Swordsman extends Fighter
 {
@@ -13,4 +14,10 @@ class Swordsman extends Fighter
         $this->currentHP = $this->totalHP;
         $this->weapon = new Sword("1 hand sword", 5);
     }
+
+    public function getSwordsmanWeapon(): Weapon
+    {
+        return $this->weapon;
+    }
+
 }

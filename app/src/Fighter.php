@@ -2,6 +2,7 @@
 namespace Tournament;
 
 use Tournament\Inventory\Armor;
+use Tournament\Inventory\Axe;
 use Tournament\Inventory\Buckler;
 use Tournament\Inventory\Weapon;
 use Tournament\Inventory\Inventory;
@@ -43,7 +44,7 @@ abstract class Fighter
     }
 
     // engage
-    public function engage(Fighter $fighter): void
+    public function engage(Fighter $fighter)
     {
         $attacker = $fighter;
         $defender = $this;
@@ -57,18 +58,33 @@ abstract class Fighter
 
             $attacker->madeBlow();
 
-            $attacker->blow($defender);
-
-
+            if ($attacker->getBlows() % 2 === 0 &&
+                !is_null($defender->buckler) &&
+                $defender->buckler->getBlocks() > 0)
+            {
+                if ($attacker->weapon instanceof Axe) $defender->buckler->blocked();
+            } else {
+                $attacker->blow($defender);
+            }
         }
     }
 
-
-    public function equip(Inventory $item): void
+    public function equip(string $item): Fighter
     {
-        if ($item instanceof Weapon) $this->weapon = $item;
-        if ($item instanceof Buckler) $this->buckler = $item;
-        if ($item instanceof Armor) $this->armor = $item;
+        switch ($item)
+        {
+            case "buckler":
+                $this->buckler = new Buckler("buckler", 3);
+                break;
+            case "armor":
+                $this->armor = new Armor("armor");
+                break;
+            case "axe":
+                $this->weapon = new Axe("1 hand axe", 6);
+                break;
+            // Can add more cases e.g. case "sword" -> creates new Sword etc.
+        }
+        return $this;
     }
 
     public function getSpeciality(): ?string
@@ -110,5 +126,10 @@ abstract class Fighter
     public function madeBlow(): void
     {
         $this->blows++;
+    }
+
+    public function getBlows(): int
+    {
+        return $this->blows;
     }
 }

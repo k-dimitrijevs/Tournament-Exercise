@@ -1,6 +1,11 @@
 <?php
 namespace Tournament;
 
+use Tournament\Inventory\Buckler;
+use Tournament\Inventory\Armor;
+use Tournament\Inventory\Sword;
+use Tournament\Inventory\Axe;
+
 /**
  * This is a duel simulation
  * Blow exchange are sequential, A engage B means that A will give the first blow, then B will respond, continue till one side death
